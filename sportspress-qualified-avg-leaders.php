@@ -4,7 +4,7 @@
  * SportPress — Qualified Average Leaders Shortcode (Generic version)
  * ============================================================================
  *
- * Developed Edoy.Net - 2026 - V1.0 
+ *  Developed Edoy.Net - 2026 - V1.0 
  *
  * PROBLEM THIS SOLVES:
  * SportPress' built-in "leader board" tables can sort by a single column
@@ -173,12 +173,19 @@ if ( ! function_exists( 'spql_get_min_pa_for_league' ) ) {
 			)
 		);
 
-		$total_jj = 0;
+		$total_jj  = 0;
+		$num_teams = count( $teams );
 		foreach ( $teams as $team_id ) {
 			$total_jj += spql_get_team_games_played( $team_id, $league_id, $season_id );
 		}
 
-		$min_pa = (int) floor( $total_jj / max( 0.01, (float) $divisor ) );
+		// MIN_PA = (average games played per team) x divisor
+		// Using the AVERAGE (not the raw total) is what makes this work
+		// correctly regardless of how many teams a league/season has.
+		// A naive "total / divisor" coincidentally matches this for
+		// 4-team leagues but breaks for any other team count.
+		$num_teams = max( 1, $num_teams );
+		$min_pa    = (int) floor( ( $total_jj / $num_teams ) * max( 0.01, (float) $divisor ) );
 
 		set_transient( $cache_key, $min_pa, 6 * HOUR_IN_SECONDS );
 
