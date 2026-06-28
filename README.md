@@ -2,7 +2,7 @@
 
 A free WordPress/SportPress shortcode that adds a **minimum plate appearances (PA) to qualify** rule to batting average leaderboards.
 
-Developed by [Edoy.Net](https://edoy.net) - 2026 - V1.0
+Developed by [Edoy.Net](https://edoy.net) - 2026 - V2.0
 
 ## The problem
 
